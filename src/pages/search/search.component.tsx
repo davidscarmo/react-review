@@ -1,26 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useMemo } from "react";
 
-const fruitsData = ["apple", "banana", "cherry", "date", "elderberry"];
+const fruitsData = ["apple", "banana", "cherry", "date", "elderberry", "fig"];
 export const SearchComponente = () => {
-  const [fruits, setFruits] = React.useState<string[]>(fruitsData);
   const [search, setSearch] = React.useState<string>("");
 
   const updateSearch = (search: string) => {
     setSearch(search);
   };
-  useEffect(() => {
-    const updateFruitList = (search: string) => {
-      setFruits(
-        fruitsData.filter((fruit) =>
-          fruit.toLowerCase().includes(search.toLowerCase())
-        )
-      );
-    };
+  const updateFruitList = (search: string) => {
+    return fruitsData.filter((fruit) =>
+      fruit.toLowerCase().includes(search.toLowerCase())
+    );
+  };
 
-    updateFruitList(search);
-  }, [search]);
-
-  
+  const fruits = useMemo(() => updateFruitList(search), [search]);
   return (
     <div>
       <input
