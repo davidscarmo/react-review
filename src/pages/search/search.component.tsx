@@ -1,31 +1,36 @@
 import React, { useMemo } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
 const fruitsData = ["apple", "banana", "cherry", "date", "elderberry", "fig"];
-export const SearchComponente = () => {
+export const SearchComponent = () => {
   const [search, setSearch] = React.useState<string>("");
 
-  const updateSearch = (search: string) => {
+  const debouncedUpdateSearch = useDebouncedCallback((search: string) => {
     setSearch(search);
-  };
-  const updateFruitList = (search: string) => {
+  }, 500);
+
+  const filterFruits = (search: string) => {
     return fruitsData.filter((fruit) =>
       fruit.toLowerCase().includes(search.toLowerCase())
     );
   };
 
-  const fruits = useMemo(() => updateFruitList(search), [search]);
+  const fruits = useMemo(() => filterFruits(search), [search]);
+
   return (
     <div>
       <input
         type="text"
         placeholder="Search fruits"
-        onChange={(e) => updateSearch(e.target.value)}
+        value={search}
+        onChange={(e) => debouncedUpdateSearch(e.target.value)}
       />
       <ul>
         {fruits.map((fruit) => (
           <li key={fruit}>{fruit}</li>
         ))}
       </ul>
+      <div>Debounce value: {search}</div>
     </div>
   );
 };
