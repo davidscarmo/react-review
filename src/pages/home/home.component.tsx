@@ -1,3 +1,11 @@
+import { Link } from "react-router-dom";
+
 export const Homecomponente = () => {
-  return <div>Hello world!</div>;
+  return (
+    <div>
+      <ul>
+        <Link to="/search">Search</Link>
+      </ul>
+    </div>
+  );
 };
