@@ -1,36 +1,23 @@
-import React, { useMemo } from "react";
-import { useDebouncedCallback } from "use-debounce";
+import { Link } from "react-router-dom";
+import React from "react";
 
-const fruitsData = ["apple", "banana", "cherry", "date", "elderberry", "fig"];
-export const SearchComponent = () => {
-  const [search, setSearch] = React.useState<string>("");
-
-  const debouncedUpdateSearch = useDebouncedCallback((search: string) => {
-    setSearch(search);
-  }, 500);
-
-  const filterFruits = (search: string) => {
-    return fruitsData.filter((fruit) =>
-      fruit.toLowerCase().includes(search.toLowerCase())
-    );
-  };
-
-  const fruits = useMemo(() => filterFruits(search), [search]);
-
+export const SearchComponent: React.FC = () => {
   return (
     <div>
-      <input
-        type="text"
-        placeholder="Search fruits"
-        value={search}
-        onChange={(e) => debouncedUpdateSearch(e.target.value)}
-      />
-      <ul>
-        {fruits.map((fruit) => (
-          <li key={fruit}>{fruit}</li>
-        ))}
-      </ul>
-      <div>Debounce value: {search}</div>
+      <h2>Search Navigation</h2>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/search/basic">Basic Search</Link>
+          </li>
+          <li>
+            <Link to="/search/debounce">Debounced Search</Link>
+          </li>
+          <li>
+            <Link to="/search/derived">Derived State Search</Link>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };
